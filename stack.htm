@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<title>Stack</title>
+</head>
+<body>
+<script type="text/javascript">
+class Stack {
+	constructor(){
+		this.stack = []
+		this.top = 0
+	}
+	// 入栈
+	push(ele){
+		this.stack[this.top++] = ele
+	}
+	// 出栈
+	pop() {
+		return this.stack[--this.top]
+	}
+
+	length() {
+		return this.top 
+	}
+
+	clear() {
+		this.top = 0
+	}
+
+	isEmpty() {
+		return this.top === 0
+	}
+}
+
+</script>
+</body>
+</html>
