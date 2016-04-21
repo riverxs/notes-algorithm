@@ -1,4 +1,5 @@
-// 链表实现
+// 先入后出的数据结构 last in first out 
+// 该练习链表实现，数组实现也很简单，JS原生提供基于数组的队列方法shift()
 class Stack {
 	constructor() {
 		this.first = null
