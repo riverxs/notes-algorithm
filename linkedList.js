@@ -36,14 +36,13 @@ class LinkedList {
 		}
 		return headNode
 	}
-	// 创建一个新的节点
+	// 创建一个新的节点作为插入时使用
 	createNode(ele) {
 		return {
 			item: ele,
 			next: null
 		}
 	}
-
 	// 在指定节点后插入一个节点 
 	insert(curEle, insertEle) {
 		let curNode = this.findNode(curEle)
