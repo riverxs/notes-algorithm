@@ -14,7 +14,7 @@ class LinkedList {
 		this.first = null
 		this.n = 0
 	}
-
+	// 添加元素
 	add(ele) {
 		let oldFirst = this.first
 		this.first = {
@@ -27,21 +27,48 @@ class LinkedList {
 	length() {
 		return this.n
 	}
-
-	findNode(key) {
-
+	// 找到指定元素的节点
+	findNode(ele) {
+		// headNode 指向头节点，从头节点向后查找
+		let headNode = this.first
+		while(headNode.item !== ele && headNode.next !== null){
+			headNode = headNode.next
+		}
+		return headNode
 	}
-	// 插入一个节点
-	insert(key, ele) {
-
+	// 创建一个新的节点
+	createNode(ele) {
+		return {
+			item: ele,
+			next: null
+		}
 	}
 
-	findPreNode(key) {
+	// 在指定节点后插入一个节点 
+	insert(curEle, insertEle) {
+		let curNode = this.findNode(curEle)
+		let insertNode = this.createNode(insertEle)
+		insertNode.next = curNode.next
+		curNode.next = insertNode
+		this.n++
+	}
+	// 找到指定节点的前一个节点
+	findPreNode(ele) {
+		let headNode = this.first
+		while(headNode !== null && headNode.next.item !== ele){
+			headNode = headNode.next
+		}
 
+		return headNode
 	}
 
 	// 通过元素删除
 	remove(ele) {
+		let preNode = this.findPreNode(ele)
+		let curNode = this.findNode(ele)
+		preNode.next = curNode.next
+		curNode = null
+		this.n--
 
 	}
 
@@ -49,14 +76,12 @@ class LinkedList {
 		return this.n === 0
 	}
 
+	// 遍历查看链上元素 
+	show() {
+		let headNode = this.first 
+		while(headNode !== null){
+			console.log(headNode.item)
+			headNode = headNode.next
+		}
+	}
 }
-
-
-
-
-
-
-
-
-
-

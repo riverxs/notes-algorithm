@@ -23,11 +23,12 @@ class Bag {
 	isEmpty() {
 		return this.n === 0
 	}
-
+	// 显示背包里的元素
 	show() {
-		while(this.first.next !== null){
-			console.log(this.first.item)
-			this.first = this.first.next
+		let headNode = this.first 
+		while(headNode !== null){
+			console.log(headNode.item)
+			headNode = headNode.next
 		}
 	}
 }
