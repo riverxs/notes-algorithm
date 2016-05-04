@@ -30,7 +30,7 @@ class Shell {
 		if(typeof v === typeof w){
 			return v < w
 		}else{
-			// throw new Error("TypeError")
+			throw new Error("TypeError")
 		}
 	}
 	// 交换a[i]和a[j]的内容
