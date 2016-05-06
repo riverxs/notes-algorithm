@@ -1,6 +1,6 @@
 // 自顶向下的归并排序
 
-// 先归并那些微型数组，然后再成对归并得到的子数组
+// 先两两归并那些微型数组得到更大的数组，然后再两两归并得到的子数组得到更大的数组，以此类推，最后归并得到的数组为排好序的数组
 
 class MergeBP {
 	constructor(){
@@ -17,7 +17,7 @@ class MergeBP {
 			// index为子数组开始索引，每次每对子数组归并后后续子数组开始index加上2*size
 			for(let index = 0; index < N - size; index += 2*size){
 				// mid为index + size -1, 最高index为index+ 2*size -1或者N-1
-				merge(a, index, index + size - 1, Math.min(index + 2*size -1, N-1))
+				this.merge(a, index, index + size - 1, Math.min(index + 2*size -1, N-1))
 			}
 		}
 		return a
@@ -70,4 +70,6 @@ class MergeBP {
 		return true
 	}
 }
+
+
 
