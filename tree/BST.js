@@ -79,11 +79,38 @@ class BST {
 		if( root=== null) return null
 		return temp.key
 	}
+
+	// 查找排名为k的键
+	select(k){
+		function selectNode(x, k){
+			if(x==null) return null
+			if(this.size(x.left) > k) return selectNode(x.left, k)
+			else if(this.size(x.left) < k) return selectNode(x.right, k)
+			else return x
+		}
+		return selectNode(this.root, k).key
+	}
+
+	// 返回给定键的排名，select的逆方法
+	rank(key) {
+		function rankN(key, x){
+			if(x===null) return 0
+			if(key < x.key) return rankN(key, x.left)
+			else if(key > x.key) return 1+this.size(x.left)+rankN(key, x.right)
+			else return this.size(x.left)
+		}
+		return rankN(key, this.root)
+	}
+
+	// 删除最小键
+	deleteMin() {
+		function deleteMIN(x) {
+			if(x.left === null) return x.right
+			x.left = deleteMIN(x.left)
+			x.n = this.size(x.left) + this.size(x.right) + 1
+			return x
+		}
+		this.root = deleteMIN(this.root)
+	}
 }
-
-
-
-
-
-
 
