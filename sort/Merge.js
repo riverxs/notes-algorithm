@@ -17,7 +17,8 @@ class Merge {
 
 	msort(a, low, high) {
 		if(high <= low) return
-		let mid = low + parseInt((high - low)/2)
+		// let mid = low + parseInt((high - low)/2)
+		let mid = (low + high) >> 1 // clear method
 		// 左半边有序
 		this.msort(a, low, mid)
 		// 右半边有序
@@ -30,9 +31,13 @@ class Merge {
 		// 将a[low...mid]和a[mid+1...high]归并
 		let i = low, j = mid + 1
 		// 将a复制到辅助数组aux
-		for(let k = low; k <= high; k++){	
-			this.aux[k] = a[k]
-		}
+		// for(let k = low; k <= high; k++){	
+		// 	this.aux[k] = a[k]
+		// }
+
+		this.aux = [...a]
+
+		// 排序low到high区间的序列
 		for(let k = low; k <= high; k++){
 			// 左半边已用完，将右半边的元素aux[j]作为排序的数组的元素a[k]
 			if(i > mid){
@@ -72,3 +77,10 @@ class Merge {
 		return true
 	}
 }
+
+// test sample
+
+const test = [2,3,1,4,6,8,7]
+const merge = new Merge()
+console.log(merge.sort(test)) // [1,2,3,4,6,7,8]
+
