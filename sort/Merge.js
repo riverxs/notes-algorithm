@@ -10,6 +10,7 @@ class Merge {
 		this.aux = []
 	}
 
+	// a是最终要排序的数组
 	sort(a) {
 		this.msort(a, 0, a.length -1)
 		return a
