@@ -82,6 +82,7 @@ class Convert {
 	}
 
 	numConvert(from, to) {
+		let digit = [] // 根据to设定
 		while(from !== 0) {
 			this.stack.push(from%to)
 			from = Math.floor(from/to)
@@ -93,9 +94,34 @@ class Convert {
 
 		return this.res.join('')
 	} 
-
+	
 }
 
-
+// test
 let cc = new Convert()
-console.log(cc.numConvert(238,8))
+console.log(cc.numConvert(238,10))
+
+
+// 括号匹配 bracket match
+
+// 具有自相似性的问题可递归描述，但分支位置和嵌套深度不固定
+
+// 问题不断简化策略
+
+function paren(exp) {
+	let stack = new Stack() // 使用栈记录已发现但尚未匹配的左括号
+
+	for(let i=0; i<exp.length; i++) {
+		if('(' === exp[i]) {
+			stack.push(exp[i]) // 左括号进栈
+		}else if (!stack.isEmpty()){
+			stack.pop() // 栈非空，遇右括号出栈
+		}else return false
+	}
+
+	return stack.isEmpty()
+}
+
+// test
+let exp = '()()(())))'
+console.log(paren(exp))
