@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint /",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/riverxs/notes-algorithm/issues"
   },
-  "homepage": "https://github.com/riverxs/notes-algorithm#readme"
+  "homepage": "https://github.com/riverxs/notes-algorithm#readme",
+  "devDependencies": {
+    "jest": "^21.2.1"
+  }
 }
