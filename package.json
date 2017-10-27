@@ -1,0 +1,25 @@
+{
+  "name": "notes-algorithm",
+  "version": "1.0.0",
+  "description": "data structures & algorithms",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint /",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riverxs/notes-algorithm.git"
+  },
+  "keywords": [
+    "cs",
+    "algorithms",
+    "data structures"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/riverxs/notes-algorithm/issues"
+  },
+  "homepage": "https://github.com/riverxs/notes-algorithm#readme"
+}

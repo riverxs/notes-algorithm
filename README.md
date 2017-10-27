@@ -1,3 +1,3 @@
 # notes-algorithms
 
-structure & algorithm
+data structures & algorithms
