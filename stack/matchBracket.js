@@ -27,13 +27,15 @@ function matchBracket(exp, b1, b2) {
 			let top = stack.top()
 			if(top === b1[0]) {
 				if(exp[i] === b1[1]) {
-					stack.pop()// 栈非空，遇右括号出栈
+					// 栈非空，遇右括号出栈
+					stack.pop() 
 				}else{
 					return false
 				}
 			}else{
 				if(exp[i] === b2[1]) {
-					stack.pop()// 栈非空，遇右括号出栈
+					// 栈非空，遇右括号出栈
+					stack.pop() 
 				}else{
 					return false
 				}
