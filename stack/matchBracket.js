@@ -12,26 +12,36 @@ const Stack = require('./index')
  * 查看exp是否完全括号格式匹配
  * 
  * @param {string} exp 
- * @param {string} m1 
- * @param {string} m2 
+ * @param {string} b1 
+ * @param {string} b2 
  * @returns {boolean}
  */
 
-function matchBracket(exp, m1, m2) {
+function matchBracket(exp, b1, b2) {
 	let stack = new Stack() // 使用栈记录已发现但尚未匹配的左括号
 
 	for(let i=0; i<exp.length; i++) {
-		if(m1[0] === exp[i] || m2[0] === exp[i]) {
+		if(b1[0] === exp[i] || b2[0] === exp[i]) {
 			stack.push(exp[i]) // 左括号进栈
-		}else if (!stack.isEmpty() && stack.top() === ){
-			stack.pop() // 栈非空，遇右括号出栈
+		}else if (!stack.isEmpty()){
+			let top = stack.top()
+			if(top === b1[0]) {
+				if(exp[i] === b1[1]) {
+					stack.pop()// 栈非空，遇右括号出栈
+				}else{
+					return false
+				}
+			}else{
+				if(exp[i] === b2[1]) {
+					stack.pop()// 栈非空，遇右括号出栈
+				}else{
+					return false
+				}
+			}
 		}else return false
 	}
 
 	return stack.isEmpty()
 }
   
-// test
-let exp = '([])()(())'
-console.log(paren(exp, '()', '[]'))
-
+module.exports = matchBracket
