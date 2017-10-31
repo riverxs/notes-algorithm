@@ -45,5 +45,5 @@ function matchBracket(exp, b1, b2) {
 
 	return stack.isEmpty()
 }
-  
+
 module.exports = matchBracket
