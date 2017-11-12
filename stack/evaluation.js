@@ -2,6 +2,15 @@
 // 中缀表达式求值
 const Stack = require('./index')
 
+
+// 定义优先级二维表
+const orderMatrix = [
+  [],
+  [],
+  [],
+]
+
+
 function evaluate(exp) {
   let operateStack = new Stack()
   let numberStack = new Stack()
@@ -32,3 +41,14 @@ function evaluate(exp) {
 function orderBetween(top, curr) {
 
 }
+
+
+function isDigit(digit) {
+  return typeof digit === 'number' 
+}
+
+
+function caculate() {
+  
+}
+
