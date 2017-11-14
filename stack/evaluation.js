@@ -20,6 +20,7 @@ function evaluate(exp) {
   operateStack.push('\0')
   while(!operateStack.isEmpty()) { // 逐个处理各字符，直至运算符栈空
     let curr = exp[i]
+    let op = null
 
     if(isDigit(curr)) {
       readDigit(curr, numberStack) //读入操作数
@@ -29,8 +30,21 @@ function evaluate(exp) {
         case '<':
           operateStack.push(curr)
           break
+        case '=':
+          operateStack.pop()
+          i++
+          break
         case '>':
-          
+          op = operateStack.pop() // 栈顶运算符出栈，执行对应的运算
+          if ('!' == op) {
+            numberStack.push(caculate(op, numberStack.pop())) // 一元运算
+          }else{
+            // 二元运算
+            let number1 = numberStack.pop()
+            let number2 = numberStack.pop()
+            numberStack.push(caculate(op, number1, number2))
+          }
+          break
       }
     }
   }
