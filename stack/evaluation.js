@@ -102,3 +102,9 @@ function factorial(num) {
   if(num == 1) return 1
   else return n * factorial(n-1)
 }
+
+
+module.exports = {
+  caculate,
+  isDigit,
+}
