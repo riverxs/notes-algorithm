@@ -1,11 +1,12 @@
 
 // 数组有序find查找操作在时间复杂度在O(lgN),但插入insert操作需O(N)时间
 
+// 迭代
 function binarySearch(a, ele){
 	let low = 0, mid, high = a.length - 1
 
 	while(low <= high){
-		mid = (low + high)/2
+		mid = (low + high) >> 1
 
 		if(a[mid] < ele){
 			low = mid + 1
@@ -15,6 +16,6 @@ function binarySearch(a, ele){
 			return mid
 		}
 	}
-	return null
+	return -1
 }
 
