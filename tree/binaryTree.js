@@ -1,4 +1,4 @@
-// 二叉树：递归定义，一个有穷的节点集合
+// 二叉树：每个节点出度不超过2
 /*这个集合可能为空，若不为空，则它是由根节点和称为其左子树Tl和右子树Tr的两个不相交的二叉树组成*/
 
 // 二叉树有左右顺序之分
@@ -21,46 +21,12 @@
 
 // 先序：访问根节点，先序遍历其左子树，先序遍历其右子树
 
-function preOrderTraversal(BT){
-	if(BT){
-		console.log(BT.data)
-		preOrderTraversal(BT.left)
-		preOrderTraversal(BT.right)
-	}else{
-		return
-	}
-}
+// 真二叉树：每个节点的出度为偶数
 
-// 其他递归遍历类似
-
-// 层次遍历，队列实现
-
-function levelOrderTraversal(BT) {
-	var Q = []
-	if(!BT) return // 空树返回
-	Q.push(BT)
-	while(Q.length!== 0) {
-		tree = Q.shift()
-		console.log(tree.data)
-		if(tree.left) {
-			Q.push(tree.left)
-		}
-		if(tree.right){
-			Q.push(tree.right)
-		}
-	}
-
-}
-
+// 二叉树是多叉树的特例，但在有根且有序时，其描述能力却足以覆盖所有树的表示
+// 多叉树可转化并表示为二叉树（长子-兄弟表示法）
 
 // 二叉树的存储结构
 /* 1. 顺序存储结构，数组存储，一般二叉树会空间浪费
    2. 链表存储, */
 
-// C描述定义
-// typedef struct treeNode *BT;
-// struct treeNode {
-// 	elememtType data;
-// 	BT left;
-// 	BT right;
-// }
