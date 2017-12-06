@@ -2,8 +2,8 @@
 
 interface BinNode<T> {
     parent: BinNode<T>;
-    lchild: BinNode<T>;
-    rchild: BinNode<T>;
+    left: BinNode<T>;
+    right: BinNode<T>;
 
     data: T;
     height: number;
@@ -22,12 +22,16 @@ interface BinNode<T> {
 }
 
 
-class BinaryNode<T> implements BinNode<T> {
-    constructor(data: T, parent: ) {
-        this.parent 
+class Node<T> implements BinNode<T> {
+    constructor(data: T, parent: BinNode<T>) {
+        this.parent = parent;
+        this.data = data
+        this.left = null
+        this.right = null
     }
 
     insertAsLeftChild(e: T) {
 
     }
 }
+
