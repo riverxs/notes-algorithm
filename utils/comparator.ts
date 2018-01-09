@@ -1,16 +1,18 @@
 /**
- * 数值比较工具集
+ * 比较工具集
  * 
  * @class Comparator
  */
-class Comparator {
+type compType = string | number
+
+export default class Comparator {
 
   /**
    * Creates an instance of Comparator.
    * @param {function} compareFn 
    * @memberof Comparator
    */
-  constructor(compareFn) {
+  constructor(compareFn?) {
     if (compareFn) {
       this.compare = compareFn
     }
@@ -18,7 +20,7 @@ class Comparator {
   /* 
   默认比较函数实现  
   */
-  compare(a, b) {
+  compare(a: compType, b: compType) {
     if (a===b) return 0
     return a < b ? -1 : 1
   }
@@ -49,6 +51,5 @@ class Comparator {
   }
 }
 
-module.exports = Comparator;
 
 
