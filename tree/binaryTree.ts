@@ -67,7 +67,15 @@ class BST<T> {
   get(key): T {
     return this.getVal(this.root, key)
   } 
-  succ() {}
+
+  min(): Comparable {
+    function getMin(node: TreeNode<T>): TreeNode<T> {
+      if(node.left === null) return node;
+      else return getMin(node.left);
+    }
+
+    return getMin(this.root).key;
+  }
 
   traverseLevel() {}
   traversePre() {}
