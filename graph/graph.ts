@@ -8,7 +8,7 @@ enum VStatus {UNDISCOVERED, DISCOVERD, VISITED}
 
 class Vertex<V> {
   data: V;
-  inDegree: number;
+  inDegree: number = 0;
   outDegree: number;
   status: VStatus;
   dTime: number;
@@ -17,7 +17,7 @@ class Vertex<V> {
   priority: number;
   constructor(d: V) {
     this.data = d;
-    this.inDegree = 0;
+    // this.inDegree = 0;
     this.outDegree = 0;
     this.status = VStatus.UNDISCOVERED;
     this.dTime = -1;
@@ -25,7 +25,7 @@ class Vertex<V> {
     this.parent = -1;
     this.priority
   }
-
+  
 }
 
 // 边数据类型

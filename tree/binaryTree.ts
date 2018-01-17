@@ -68,6 +68,7 @@ class BST<T> {
     return this.getVal(this.root, key)
   } 
 
+  // 取最小键
   min(): Comparable {
     function getMin(node: TreeNode<T>): TreeNode<T> {
       if(node.left === null) return node;
@@ -76,6 +77,51 @@ class BST<T> {
 
     return getMin(this.root).key;
   }
+
+  // 取最大键
+  max(): Comparable {
+    function getMax(node: TreeNode<T>): TreeNode<T> {
+      if(node.right === null) return node;
+      else return getMax(node.right);
+    }
+
+    return getMax(this.root).key;
+  }
+
+  // 向下取键
+  floor(key: Comparable): Comparable {
+    let that = this
+    function getFloor(node: TreeNode<T>, key: Comparable): TreeNode<T> {
+      if(node === null) return null
+      let cmp = that._comparator.compare(key, node.key)
+
+      if(cmp === 0) return node
+      if(cmp < 0) return getFloor(node.left, key)
+
+      let f = getFloor(node.right, key)
+
+      if(f != null) return f
+      else return node
+    }
+    let node = getFloor(this.root, key)
+    if(node === null) return null
+    return node.key
+  }
+
+  // 选择操作，选择排名为k位的键
+  select(k: number): Comparable {
+    function selectKey(node: TreeNode<T>, k: number): TreeNode<T> {
+      if(node === null) return null
+
+      let s = node.left.size
+
+      if(s > k) return selectKey(node.left, k)
+      else if(s < k) return selectKey(node.right, k-s-1)
+      else return node
+    }
+    return selectKey(this.root, k).key
+  }
+
 
   traverseLevel() {}
   traversePre() {}
