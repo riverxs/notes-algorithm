@@ -1,47 +1,49 @@
+
+type comparableType = any
+type compareResult = 0 | -1 | 1
+// type compareFn = (a: comparableType, b: comparableType) => compareResult | Error
+interface compareFn {
+  (a: comparableType, b: comparableType) : compareResult | Error
+}
+
+
 /**
  * 比较工具集
- * 
+ *
  * @class Comparator
  */
-type compType = string | number
-
 export default class Comparator {
 
-  /**
-   * Creates an instance of Comparator.
-   * @param {function} compareFn 
-   * @memberof Comparator
-   */
-  constructor(compareFn?) {
+  constructor(compareFn?: compareFn) {
     if (compareFn) {
       this.compare = compareFn
     }
   }
-  /* 
-  默认比较函数实现  
+  /*
+  默认比较函数实现
   */
-  compare(a: compType, b: compType) {
+  compare(a: comparableType, b: comparableType): compareResult | Error {
     if (a===b) return 0
     return a < b ? -1 : 1
   }
 
-  equal(a,b) {
+  equal(a: comparableType, b: comparableType) {
     return this.compare(a, b) === 0
   }
 
-  lessThan(a, b) {
+  lessThan(a: comparableType, b: comparableType) {
     return this.compare(a, b) < 0
   }
 
-  lessThanOrEqual(a, b) {
+  lessThanOrEqual(a: comparableType, b: comparableType) {
     return this.lessThan(a, b) || this.equal(a,b)
   }
 
-  greaterThan(a, b) {
+  greaterThan(a: comparableType, b: comparableType) {
     return this.compare(a, b) > 0
   }
 
-  greaterThanOrEqual(a, b) {
+  greaterThanOrEqual(a: comparableType, b: comparableType) {
     return this.greaterThan(a, b) || this.equal(a, b)
   }
 

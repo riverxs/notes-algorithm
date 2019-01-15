@@ -23,6 +23,9 @@
   },
   "homepage": "https://github.com/riverxs/notes-algorithm#readme",
   "devDependencies": {
-    "jest": "^21.2.1"
+    "@types/jest": "^23.3.12",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.2.2"
   }
 }
