@@ -127,6 +127,7 @@ export default class LinkedList<T> {
 
   /**
    * 删除尾节点
+   *
    * @returns LinkedListNode
    * @memberof LinkedList
    */
@@ -181,14 +182,15 @@ export default class LinkedList<T> {
 
   /**
    * 将链表转成数组便于输出查看
+   *
    * @returns [T]
    * @memberof LinkedList
    */
   toArray() {
-    const nodes = []
+    let nodes = []
 
     let currentNode = this.head
-    if (currentNode !== null) {
+    while(currentNode !== null) {
       nodes.push(currentNode)
       currentNode = currentNode.next
     }
@@ -219,6 +221,7 @@ export default class LinkedList<T> {
 
   /**
    * 反转链表
+   *
    * @returns an instance of reversion LinkedList
    * @memberof LinkedList
    */
