@@ -203,8 +203,8 @@ export default class LinkedList<T> {
    *
    * @memberof LinkedList
    */
-  toString() {
-    return this.toArray().map(node => node.value.toString()).toString()
+  toString(callback?: (value: any) => void) {
+    return this.toArray().map(node => node.toString(callback)).toString()
   }
 
   /**

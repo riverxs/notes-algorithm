@@ -65,7 +65,103 @@ describe('LinkedList', () => {
     expect((<LinkedListNode<number>>linkedList.tail).value).toBe(5)
   })
 
-  it('', () => {
+  it('should delete linked list tail', () => {
+    const linkedList = new LinkedList()
+
+    linkedList.append(1)
+    linkedList.append(2)
+    linkedList.append(3)
+
+    expect((<LinkedListNode<number>>linkedList.head).value).toBe(1)
+    expect(linkedList.toString()).toBe('1,2,3')
+    expect((<LinkedListNode<number>>linkedList.head).toString()).toBe('1')
+    expect((<LinkedListNode<number>>linkedList.tail).toString()).toBe('3')
+
+    const deletedNode1 = linkedList.deleteTail()
+
+    expect((<LinkedListNode<number>>deletedNode1).value).toBe(3);
+    expect(linkedList.toString()).toBe('1,2');
+    expect((<LinkedListNode<number>>linkedList.head).toString()).toBe('1');
+    expect((<LinkedListNode<number>>linkedList.tail).toString()).toBe('2');
+
+    const deletedNode2 = linkedList.deleteTail();
+
+    expect((<LinkedListNode<number>>deletedNode2).value).toBe(2);
+    expect(linkedList.toString()).toBe('1');
+    expect((<LinkedListNode<number>>linkedList.head).toString()).toBe('1');
+    expect((<LinkedListNode<number>>linkedList.tail).toString()).toBe('1');
+
+    const deletedNode3 = linkedList.deleteTail();
+
+    expect((<LinkedListNode<number>>deletedNode3).value).toBe(1);
+    expect(linkedList.toString()).toBe('');
+    expect(linkedList.head).toBeNull();
+    expect(linkedList.tail).toBeNull();
+  })
+
+  it('should delete linked list head', () => {
+    const linkedList = new LinkedList();
+
+    expect(linkedList.deleteHead()).toBeNull();
+
+    linkedList.append(1);
+    linkedList.append(2);
+
+    linkedList.head instanceof LinkedListNode && expect(linkedList.head.toString()).toBe('1');
+    linkedList.tail instanceof LinkedListNode && expect(linkedList.tail.toString()).toBe('2');
+
+    const deletedNode1 = linkedList.deleteHead();
+
+    deletedNode1 instanceof LinkedListNode && expect(deletedNode1.value).toBe(1);
+    expect(linkedList.toString()).toBe('2');
+    linkedList.head instanceof LinkedListNode && expect(linkedList.head.toString()).toBe('2');
+    linkedList.tail instanceof LinkedListNode && expect(linkedList.tail.toString()).toBe('2');
+
+    const deletedNode2 = linkedList.deleteHead();
+
+    deletedNode2 instanceof LinkedListNode && expect(deletedNode2.value).toBe(2);
+    expect(linkedList.toString()).toBe('');
+    expect(linkedList.head).toBeNull();
+    expect(linkedList.tail).toBeNull();
+  });
+
+  it('should be possible to store objects in the list and to print them out', () => {
+    const linkedList = new LinkedList()
+
+    interface testNode {
+      value: number,
+      key: string
+    }
+
+    const nodeValue1: testNode = { value: 1, key: 'key1'}
+    const nodeValue2: testNode = { value: 2, key: 'key2'}
+
+    linkedList.append(nodeValue1).prepend(nodeValue2)
+
+    interface nodeStr<T> {
+      (value: T): string
+    }
+    const nodeStringifier: nodeStr<testNode> = value => `${value.key}:${value.value}`;
+    expect(linkedList.toString(nodeStringifier)).toBe('key2:2,key1:1');
+  })
+
+  it('should find node by callback', () => {
+    interface TestNode {
+      value: number,
+      key: string
+    }
+    const linkedList = new LinkedList<TestNode>()
+
+    linkedList.append({key: 'test1', value: 1})
+              .append({key: 'test2', value: 2})
+              .append({key: 'test3', value: 3})
+
+    const  node = linkedList.find({key: 'test2', value: 2}, value => value.key === 'test2')
+
+    expect(node).toBeDefined();
+    expect((<LinkedListNode<TestNode>>node).value.value).toBe(2);
+    expect((<LinkedListNode<TestNode>>node).value.key).toBe('test2');
+    expect(linkedList.find({key: 'test3', value: 3}, value => value.key === 'test5' )).toBeNull();
 
   })
 })
