@@ -7,6 +7,7 @@ export default class Stack<T> {
   /**
    * Creates an empty instance of Stack.
    * implement Stack based on LinkedList
+   * LIFO: last in first out
    * @memberof Stack
    */
   constructor() {
@@ -76,6 +77,16 @@ export default class Stack<T> {
    */
   toString(callback?: (value: T) => string ): string {
     return this.linkedList.toString(callback)
+  }
+
+  /**
+   * 返回栈长度
+   *
+   * @returns {number}
+   * @memberof Stack
+   */
+  length(): number {
+    return this.toArray().length
   }
 }
 
