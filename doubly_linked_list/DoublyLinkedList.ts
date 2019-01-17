@@ -27,7 +27,7 @@ export default class DoublyLinkedList<T> {
    * 在双向链表前端插入节点
    *
    * @param {T} value
-   * @returns
+   * @returns DoublyLinkedList instance
    * @memberof DoublyLinkedList
    */
   prepend(value: T) {
@@ -43,6 +43,29 @@ export default class DoublyLinkedList<T> {
     if (!this.tail) {
       this.tail = newNode
     }
+    return this
+  }
+
+  /**
+   * 在双向链表的后端插入节点
+   *
+   * @param {T} value
+   * @returns DoublyLinkedList instance
+   * @memberof DoublyLinkedList
+   */
+  append(value: T) {
+    const newNode = new DoublyLinkedListNode(value)
+
+    if (!this.head) {
+      this.head = newNode
+      this.tail = newNode
+      return this
+    }
+
+    (this.tail as DoublyLinkedListNode<T>).next = newNode
+    newNode.previous = this.tail
+    // 最新节点为尾节点
+    this.tail = newNode
     return this
   }
 
