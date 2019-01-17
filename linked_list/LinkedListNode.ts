@@ -4,7 +4,7 @@ export default class LinkedListNode<T> {
     this.next = next
   }
 
-  toString(cb?: (val: T ) => void ) {
+  toString(cb?: (val: T ) => string ): string {
     return cb ? cb(this.value) : `${this.value}`
   }
 }

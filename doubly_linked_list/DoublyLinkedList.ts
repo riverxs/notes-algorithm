@@ -64,7 +64,7 @@ export default class DoublyLinkedList<T> {
 
     (this.tail as DoublyLinkedListNode<T>).next = newNode
     newNode.previous = this.tail
-    // 最新节点为尾节点
+    // 设置最新节点为尾节点
     this.tail = newNode
     return this
   }

@@ -7,9 +7,11 @@ interface compareFn {
   (a: comparableType, b: comparableType) : compareResult | Error
 }
 
+type Node<T> = LinkedListNode<T> | null
+
 export default class LinkedList<T> {
-  public head: LinkedListNode<T> | null
-  public tail: LinkedListNode<T> | null
+  public head: Node<T>
+  public tail: Node<T>
   private compare: Comparator
 
   /**
@@ -30,7 +32,7 @@ export default class LinkedList<T> {
    * @returns an instance of LinkedList.
    * @memberof LinkedList
    */
-  prepend(value: T) {
+  prepend(value: T): LinkedList<T> {
     const newNode = new LinkedListNode(value, this.head)
     this.head = newNode
 
@@ -48,7 +50,7 @@ export default class LinkedList<T> {
    * @returns an instance of LinkedList
    * @memberof LinkedList
    */
-  append(value: T) {
+  append(value: T): LinkedList<T> {
     const newNode = new LinkedListNode(value)
 
     if (!this.head) {
@@ -70,7 +72,7 @@ export default class LinkedList<T> {
    * @returns deleteNode
    * @memberof LinkedList
    */
-  delete(value: T) {
+  delete(value: T): Node<T> {
     if (!this.head) return null
 
     let deleteNode = null
@@ -110,7 +112,7 @@ export default class LinkedList<T> {
    * @returns LinkedListNode | null
    * @memberof LinkedList
    */
-  find(value: T, callback?: (value: T) => boolean) {
+  find(value: T, callback?: (value: T) => boolean): Node<T> {
     if (!this.head) return null
 
     let currentNode = this.head
@@ -131,7 +133,7 @@ export default class LinkedList<T> {
    * @returns LinkedListNode
    * @memberof LinkedList
    */
-  deleteTail() {
+  deleteTail(): Node<T> {
     const deleteTail = this.tail
     // 只有一个节点
     if (this.head === this.tail) {
@@ -165,7 +167,7 @@ export default class LinkedList<T> {
    *
    * @memberof LinkedList
    */
-  deleteHead() {
+  deleteHead(): Node<T> {
     if (!this.head) return null
 
     const deleteHead = this.head
@@ -186,7 +188,7 @@ export default class LinkedList<T> {
    * @returns [T]
    * @memberof LinkedList
    */
-  toArray() {
+  toArray(): LinkedListNode<T>[] {
     let nodes = []
 
     let currentNode = this.head
@@ -203,7 +205,7 @@ export default class LinkedList<T> {
    *
    * @memberof LinkedList
    */
-  toString(callback?: (value: any) => void) {
+  toString(callback?: (value: T) => string): string {
     return this.toArray().map(node => node.toString(callback)).toString()
   }
 
@@ -214,7 +216,7 @@ export default class LinkedList<T> {
    * @returns an instance of LinkedList
    * @memberof LinkedList
    */
-  formArray(values: T[]) {
+  formArray(values: T[]): LinkedList<T> {
     values.forEach(value => this.append(value))
     return this
   }
