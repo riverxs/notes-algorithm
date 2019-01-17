@@ -164,5 +164,48 @@ describe('LinkedList', () => {
     expect(linkedList.find({key: 'test3', value: 3}, value => value.key === 'test5' )).toBeNull();
 
   })
+
+  it('should create linked list from array', () => {
+    const linkedList = new LinkedList<number>()
+
+    linkedList.formArray([1,1,2,3,3,4,5]);
+    expect(linkedList.toString()).toBe('1,1,2,3,3,4,5')
+  })
+
+  it('should find node by means of custom compare function', () => {
+    type compareResult = 0 | -1 | 1
+
+    interface TestNode {
+      value: number,
+      customValue: string
+    }
+
+    const node1 = {value: 1, customValue: 'test1'}
+    const node2 = {value: 2, customValue: 'test2'}
+    const node3 = {value: 3, customValue: 'test3'}
+
+    interface TestComparatorFn {
+      (a: any, b: any): compareResult | Error
+    }
+
+    const comparatorFn: TestComparatorFn = (a, b) => {
+      if (a.customValue === b.customValue) return 0
+      return a.customValue < b.customValue ? -1 : 1
+    }
+
+    const linkedList = new LinkedList<TestNode>(comparatorFn)
+
+    linkedList.append(node1)
+              .append(node2)
+              .append(node3)
+
+    const node = linkedList.find({value: 2, customValue: 'test2'})
+
+    expect(node).toBeDefined()
+    expect((node as LinkedListNode<TestNode>).value.value).toBe(2)
+    expect((node as LinkedListNode<TestNode>).value.customValue).toBe('test2')
+    expect(linkedList.find({value: 2, customValue: 'test6'})).toBeNull()
+  })
+
 })
 

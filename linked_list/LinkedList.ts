@@ -214,7 +214,7 @@ export default class LinkedList<T> {
    * @returns an instance of LinkedList
    * @memberof LinkedList
    */
-  formArray(values: [T]) {
+  formArray(values: T[]) {
     values.forEach(value => this.append(value))
     return this
   }
@@ -229,4 +229,3 @@ export default class LinkedList<T> {
 
   }
 }
-
