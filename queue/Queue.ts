@@ -46,6 +46,17 @@ export default class Queue<T> {
   }
 
   /**
+   * find element at the tail of queue
+   *
+   * @returns {(T | null)}
+   * @memberof Queue
+   */
+  tail(): T | null {
+    if (!this.linkedList.tail) return null
+    return this.linkedList.tail.value
+  }
+
+  /**
    * judge whether the queue is enpty or not
    *
    * @returns {boolean}

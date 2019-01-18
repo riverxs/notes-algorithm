@@ -44,6 +44,18 @@ describe('Test Queue Data Structure', () => {
     expect(queue.toString()).toBe('1,2')
   })
 
+  it('should read the element at the tail of the queue without removing it', () => {
+    const queue = new Queue()
+    expect(queue.peek()).toBe(null)
+
+    queue.enqueue(1)
+    queue.enqueue(2)
+
+    expect(queue.tail()).toBe(2)
+    expect(queue.tail()).toBe(2)
+    expect(queue.toString()).toBe('1,2')
+  })
+
   it('should enqueue and dequeue the object element', () => {
     interface QueueEle {
       key: string,
