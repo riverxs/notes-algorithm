@@ -44,7 +44,7 @@ export default class Stack<T> {
    * @memberof Stack
    */
   push(value: T): void {
-    this.linkedList.append(value)
+    this.linkedList.prepend(value)
   }
 
   /**
@@ -89,6 +89,3 @@ export default class Stack<T> {
     return this.toArray().length
   }
 }
-
-
-
