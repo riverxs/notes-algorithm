@@ -39,7 +39,7 @@ export default class Vector<T> {
     let start = startIndex || 0
     const len = this.eles.length
     for (let i = start; i < len; i++) {
-      // 此处只适用基本类型比较?
+      // 此处只适用基本类型比较? 需引入
       if (ele === this.eles[i]) return i
     }
     return -1
