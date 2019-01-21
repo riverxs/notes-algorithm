@@ -1,5 +1,5 @@
 import LinkedListNode from './LinkedListNode';
-import Comparator from '../utils/comparator';
+import Comparator from '../../utils/comparator/comparator';
 
 type comparableType = string | number
 type compareResult = 0 | -1 | 1

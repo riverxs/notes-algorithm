@@ -1,5 +1,5 @@
 import DoublyLinkedListNode from './DoublyLinkedListNode'
-import Comparator from '../utils/comparator'
+import Comparator from '../../utils/comparator/comparator'
 
 type comparableType = any
 type compareResult = 0 | -1 | 1
