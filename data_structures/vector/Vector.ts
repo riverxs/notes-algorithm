@@ -1,3 +1,5 @@
+import Comparator from '../../utils/comparator/comparator';
+
 /**
  * vector abstract type
  * feature:
@@ -15,7 +17,7 @@
  */
 export default class Vector<T> {
   private eles: T[]
-
+  private compare: Comparator
   /**
    * Creates an instance of Vector.
    * 使用传入的数组初始化一个Vector容器
@@ -24,12 +26,13 @@ export default class Vector<T> {
    */
   constructor(init: T[]) {
     this.eles = init
+    this.compare = new Comparator()
   }
 
   // 增删改查vector
 
   /**
-   * 查找并返回第一次出现ele的秩(rank或index), 不存在则返回-1
+   * 查找并返回第一次出现ele的秩(index), 不存在则返回-1
    * 类比indexOf()
    * @param {T} ele
    * @returns {number}
@@ -37,10 +40,10 @@ export default class Vector<T> {
    */
   indexOf(ele: T, startIndex?: number): number {
     let start = startIndex || 0
-    const len = this.eles.length
+    const len = this.length()
     for (let i = start; i < len; i++) {
-      // 此处只适用基本类型比较? 需引入
-      if (ele === this.eles[i]) return i
+      const isEq = this.compare.equal(ele, this.eles[i])
+      if (isEq) return i
     }
     return -1
   }
@@ -55,19 +58,63 @@ export default class Vector<T> {
    * @memberof Vector
    */
   find(cb: (ele: T) => boolean): T | undefined {
-    return
+    const len = this.length()
+    for(let i = 0; i < len; i++) {
+      if (cb(this.eles[i])) {
+        return this.eles[i]
+      }
+    }
+    return undefined
   }
 
-  get(rank: number): T {
-    return
+
+  /**
+   * 返回特定位置的值
+   *
+   * @param {number} index
+   * @returns {T}
+   * @memberof Vector
+   */
+  get(index: number): T {
+    return this.eles[index]
   }
 
-  put(rank: number, value: T): T[] {
-    return
+  /**
+   * 修改特定位置的值，并返回修改后的vector
+   *
+   * @param {number} index
+   * @param {T} value
+   * @returns {Vector<T>}
+   * @memberof Vector
+   */
+  put(index: number, value: T): Vector<T> {
+    this.eles[index] = value
+    return this
   }
 
-  insert(rank: number, value: T): T[] {
-    return
+  /**
+   * 在指定index后插入一个值，返回插入后的vector
+   *
+   * @param {number} index
+   * @param {T} value
+   * @returns {Vector<T>}
+   * @memberof Vector
+   */
+  insert(index: number, value: T): Vector<T> {
+    let prev = []
+    let last = []
+    const len = this.length()
+    for(let i = 0; i < len; i++) {
+      if ( i <= index) {
+        prev[i] = this.eles[i]
+      } else {
+        last[i] = this.eles[i]
+      }
+    }
+
+
+
+    return this
   }
 
   remove(value) {
@@ -149,7 +196,7 @@ export default class Vector<T> {
 
   // 信息获取方法
   length(): number {
-    return
+    return this.eles.length;
   }
 
   includes() {
