@@ -205,7 +205,7 @@ export default class LinkedList<T> {
    *
    * @memberof LinkedList
    */
-  toString(callback?: (value: T) => string): string {
+  toString(callback?: (value: any) => string): string {
     return this.toArray().map(node => node.toString(callback)).toString()
   }
 

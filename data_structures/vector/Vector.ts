@@ -1,4 +1,5 @@
 import Comparator from '../../utils/comparator/comparator';
+import _ from 'lodash';
 
 /**
  * vector abstract type
@@ -59,7 +60,7 @@ export default class Vector<T> {
    */
   find(cb: (ele: T) => boolean): T | undefined {
     const len = this.length()
-    for(let i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
       if (cb(this.eles[i])) {
         return this.eles[i]
       }
@@ -100,106 +101,99 @@ export default class Vector<T> {
    * @returns {Vector<T>}
    * @memberof Vector
    */
-  insert(index: number, value: T): Vector<T> {
+  insert(index: number, value: T): T[] {
     let prev = []
     let last = []
     const len = this.length()
-    for(let i = 0; i < len; i++) {
-      if ( i <= index) {
-        prev[i] = this.eles[i]
+    for (let i = 0; i < len; i++) {
+      if (i <= index) {
+        prev.push(this.eles[i])
       } else {
-        last[i] = this.eles[i]
+        last.push(this.eles[i])
       }
     }
 
-
-
-    return this
+    return [...prev, value, ...last]
   }
 
-  remove(value) {
+  /**
+   * 返回删除后的Vector结构
+   *
+   * @param {T} value
+   * @returns {T[]}
+   * @memberof Vector
+   */
+  remove(value: T): T[] {
+    // 此处以filter为实现原语，也可以更基本的for迭代原语来实现，
+    // 问题是——使用这种方式和底层实现的区别在哪？filter/map也可看做vector层的操作原语，
+    // 那要在vector上做更高级的操作直接使用下一层的原语构件不就行了么？
 
+    return this.eles.filter(ele => {
+      return ele !== value
+    })
   }
 
-  uniq() {
-
+  /**
+   * 返回去重后的vector
+   *
+   * @returns {T[]}
+   * @memberof Vector
+   */
+  uniq(): T[] {
+    const len = this.eles.length
+    let uniqList: T[] = []
+    for (let i = 0; i < len; i++) {
+      const ele = this.eles[i]
+      if (!_.includes(uniqList, ele)) {
+        uniqList.push(ele)
+      }
+    }
+    return uniqList
   }
 
-  push() {
+  /**
+   * 判断vector是升序1、降序-1、还是无序0
+   *
+   * @returns {number}
+   * @memberof Vector
+   */
+  disorder(): number {
+    let n = 0
+    let m = 0
+    let len = this.eles.length
 
+    for (let i = 1; i < len; i++) {
+      if ((this.eles[i] as any) - (this.eles[i - 1] as any) >= 0) {
+        n++
+      }
+      if ((this.eles[i] as any) - (this.eles[i - 1] as any) <= 0) {
+        m++
+      }
+    }
+
+    if (n == len - 1) {
+      return 1
+    } else if (m == len - 1) {
+      return -1
+    } else {
+      return 0
+    }
   }
 
-  pop() {
-
-  }
-
-  shift() {
-
-  }
-
-  unshift() {
-
-  }
-
-  // 排序方法
-  sort(fn?: (a: T, b: T) => number) {
-
-  }
-
-  reverse() {
-
-  }
-
-  disorder() {
-
-  }
-
-  // 迭代方法
-  every() {
-
-  }
-
-  some() {
-
-  }
-
-  map() {
-
-  }
-
-  filter() {
-
-  }
-
-  forEach() {
-
-  }
-
-  // 归并方法
-  reduce() {
-
-  }
-
-  reduceRight() {
-
-  }
-
-  // 格式化方法
-
-  join(symbol: string): string {
-
-  }
-
-  toString() {
-
+  /**
+   * 使用reduce方法实现map
+   *
+   * @returns {T[]}
+   * @memberof Vector
+   */
+  map(fn: Function): T[] {
+    return this.eles.reduce((prev, curr) => {
+      return prev.concat(fn(curr))
+    }, [])
   }
 
   // 信息获取方法
   length(): number {
     return this.eles.length;
-  }
-
-  includes() {
-
   }
 }
