@@ -1,5 +1,5 @@
 
-type DoublyAlias<T> = DoublyLinkedListNode<T> | null
+export type DoublyAlias<T> = DoublyLinkedListNode<T> | null
 
 export default class DoublyLinkedListNode<T> {
   constructor(public value: T, public next: DoublyAlias<T> = null, public previous: DoublyAlias<T> = null) {

@@ -1,4 +1,4 @@
-
+import _ from 'lodash'
 type comparableType = any
 type compareResult = 0 | -1 | 1
 // type compareFn = (a: comparableType, b: comparableType) => compareResult | Error
@@ -23,8 +23,8 @@ export default class Comparator {
   默认比较函数实现, 这个实现比较幼稚，后期参考underscore的实现
   */
   compare(a: comparableType, b: comparableType): compareResult | Error {
-    if (a===b) return 0
-    return a < b ? -1 : 1
+    if (_.eq(a, b)) return 0
+    return _.gt(a, b) ? 1 : -1
   }
 
   equal(a: comparableType, b: comparableType) {
