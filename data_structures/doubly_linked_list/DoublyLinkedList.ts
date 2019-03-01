@@ -116,4 +116,141 @@ export default class DoublyLinkedList<T> {
   }
 
 
+  /**
+   * 查找双向链表中的值，有则返回该结点，无返回null, 当提供
+   * 第二个可选函数参数，当满足条件则返回该结点，无返回null
+   *
+   * @param {T} value
+   * @param {(value: T) => boolean} [callback]
+   * @returns {(DoublyLinkedListNode<T> | null)}
+   * @memberof DoublyLinkedList
+   */
+  find(value?: T, callback?: (value: T) => boolean): DoublyLinkedListNode<T> | null {
+    if (!this.head) return null
+    let currentNode: DoublyLinkedListNode<T> | null = this.head
+
+    while(currentNode) {
+      if (callback && callback(currentNode.value)) return currentNode
+      if (value && value === currentNode.value) return currentNode
+      currentNode = currentNode.next
+    }
+
+    return null
+  }
+
+
+  /**
+   * 存在头结点则返回删除的头结点，不存在则返回null
+   *
+   * @returns {(DoublyLinkedListNode<T> | null)}
+   * @memberof DoublyLinkedList
+   */
+  deleteHead(): DoublyLinkedListNode<T> | null {
+    if (!this.head) return null
+    const deleteNode = this.head
+    if (this.head.next) {
+      this.head = this.head.next
+      this.head.previous = null
+    } else {
+      this.head = null
+      this.tail = null
+    }
+    return deleteNode
+  }
+
+  deleteTail(): DoublyLinkedListNode<T> | null {
+    if (!this.head) return null
+    const deleteNode = this.tail
+
+    if ((this.tail as DoublyLinkedListNode<T>).previous) {
+      this.tail = (this.tail as DoublyLinkedListNode<T>).previous;
+      (this.tail as DoublyLinkedListNode<T>).next = null
+    } else {
+      this.head = null
+      this.tail = null
+    }
+    return deleteNode
+  }
+
+
+  /**
+   * 反转双向链表，返回翻转后的实例
+   *
+   * @returns {DoublyLinkedList<T>}
+   * @memberof DoublyLinkedList
+   */
+  reverse(): DoublyLinkedList<T> {
+    let currentNode = this.head
+    let nextNode = null
+    let prevNode = null
+
+    while(currentNode) {
+      // 暂存下一个结点
+      nextNode = currentNode.next
+      prevNode = currentNode.previous
+
+      // 改变当前结点的前置和后置结点
+      currentNode.previous = nextNode
+      currentNode.next = prevNode
+
+      // 更改当前结点
+      prevNode = currentNode
+      currentNode = nextNode
+    }
+
+    this.tail = this.head
+    this.head = prevNode
+
+    return this
+  }
+
+  /**
+   * 使用数组的元素生成双向链表
+   *
+   * @param {T[]} values
+   * @returns {DoublyLinkedList<T>}
+   * @memberof DoublyLinkedList
+   */
+  fromArray(values: T[]): DoublyLinkedList<T> {
+    values.forEach(value => this.append(value))
+    return this
+  }
+
+  /**
+   * 返回双向链表值的数组集合
+   *
+   * @returns {T[]}
+   * @memberof DoublyLinkedList
+   */
+  toArray(): DoublyLinkedListNode<T>[] {
+    const nodes = []
+
+    let currentNode = this.head
+    while(currentNode) {
+      nodes.push(currentNode)
+      currentNode = currentNode.next
+    }
+    return nodes
+  }
+
+  /**
+   * 格式化双向链表，字符串形式输出
+   *
+   * @param {(value: any) => string} [callback]
+   * @returns {string}
+   * @memberof DoublyLinkedList
+   */
+  toString(callback?: (value: any) => string): string {
+    return this.toArray().map( node => node.toString(callback)).toString()
+  }
+
+  /**
+   * 查看双向链表的长度
+   *
+   * @returns {number}
+   * @memberof DoublyLinkedList
+   */
+  length(): number {
+    return this.toArray().length
+  }
 }
