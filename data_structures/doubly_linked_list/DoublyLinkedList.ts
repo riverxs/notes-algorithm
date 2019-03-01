@@ -185,7 +185,7 @@ export default class DoublyLinkedList<T> {
     let prevNode = null
 
     while(currentNode) {
-      // 暂存下一个结点
+      // 暂存下一个结点与前一个结点
       nextNode = currentNode.next
       prevNode = currentNode.previous
 
