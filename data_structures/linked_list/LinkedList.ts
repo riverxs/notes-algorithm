@@ -3,8 +3,13 @@ import Comparator from '../../utils/comparator/comparator';
 
 type comparableType = string | number
 type compareResult = 0 | -1 | 1
+
 interface compareFn {
   (a: comparableType, b: comparableType) : compareResult | Error
+}
+
+interface Callback<T> {
+  (value: T): boolean
 }
 
 type Node<T> = LinkedListNode<T> | null
@@ -112,15 +117,15 @@ export default class LinkedList<T> {
    * @returns LinkedListNode | null
    * @memberof LinkedList
    */
-  find(value: T, callback?: (value: T) => boolean): Node<T> {
+  find(value: T | Callback<T>): Node<T> {
     if (!this.head) return null
 
     let currentNode = this.head
 
     while(currentNode !== null) {
-      if (callback && callback(currentNode.value)) return currentNode
+      if (typeof value === 'function' && value instanceof Function && value(currentNode.value)) return currentNode
 
-      if (this.compare.equal(currentNode.value, value)) return currentNode
+      if (typeof value !== 'function' && this.compare.equal(currentNode.value, value)) return currentNode
 
       currentNode = (<LinkedListNode<T>>currentNode.next)
     }
