@@ -1,7 +1,7 @@
 import LinkedList from '../linked_list/LinkedList'
 
-// 最好是素数，这样index分布更为平均，减少碰撞
-const defaultHashTableSize: number = 97
+// 最好是素数，这样充分利用原散列值的所有位，减少碰撞
+const defaultHashTableSize: number = 31
 
 type K = string | number
 
