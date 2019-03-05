@@ -156,12 +156,12 @@ describe('LinkedList', () => {
               .append({key: 'test2', value: 2})
               .append({key: 'test3', value: 3})
 
-    const  node = linkedList.find({key: 'test2', value: 2}, value => value.key === 'test2')
+    const  node = linkedList.find( value => value.key === 'test2')
 
     expect(node).toBeDefined();
     expect((<LinkedListNode<TestNode>>node).value.value).toBe(2);
     expect((<LinkedListNode<TestNode>>node).value.key).toBe('test2');
-    expect(linkedList.find({key: 'test3', value: 3}, value => value.key === 'test5' )).toBeNull();
+    expect(linkedList.find(value => value.key === 'test5' )).toBeNull();
 
   })
 

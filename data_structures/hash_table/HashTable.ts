@@ -1,6 +1,7 @@
 import LinkedList from '../linked_list/LinkedList'
 
-const defaultHashTableSize: number = 63
+// 最好是素数，这样index分布更为平均，减少碰撞
+const defaultHashTableSize: number = 97
 
 type K = string | number
 
@@ -10,14 +11,15 @@ interface LinkedListValue<K, V> {
 }
 
 /**
- * 使用数组与链表实现HashTable，拉链法解决key冲突
- *
+ * 使用数组与链表实现HashTable(不在此实现中使用内置对象字面量和Map结构)，拉链法解决key冲突，插入, 查找，删除平均时间复杂度O(1)
+ * so, they are widely used in many kinds of computer software,
+ * particularly for associative arrays, database indexing, caches, and sets.
  * @export
  * @class HashTable
  */
 export default class HashTable<V> {
-  private buckets: LinkedList<LinkedListValue<K, V>>[]
-
+  readonly buckets: LinkedList<LinkedListValue<K, V>>[]
+  private entries: Array<[K, V]>
   /**
    * Creates an instance of HashTable.
    * @param {number} [hashTableSize=defaultHashTableSize]
@@ -25,8 +27,8 @@ export default class HashTable<V> {
    */
   constructor(hashTableSize: number = defaultHashTableSize) {
     this.buckets = Array(hashTableSize).fill(null).map(() => new LinkedList())
+    this.entries = []
   }
-
 
   /**
    * 哈希函数，将key转成一个哈希值
@@ -58,19 +60,29 @@ export default class HashTable<V> {
    * @param {V} value
    * @memberof HashTable
    */
-  set(key: K, value: V): void {
+  set(key: K, value: V): HashTable<V> {
     const { node, bucketLinkedList } = this.getNode(key)
     if (!node) {
       // 插入新结点
       bucketLinkedList.append({ key, value })
+      this.entries.push([key, value])
     } else {
       // 更新结点
       node.value.value = value
+      this.entries = this.entries.map((entry) => {
+        if (entry[0] === key) {
+          entry[1] = value
+          return entry
+        } else {
+          return entry
+        }
+      })
     }
+    return this
   }
 
   /**
-   *
+   * 删除特定键值对
    *
    * @param {K} key
    * @returns {(V | null)}
@@ -80,6 +92,14 @@ export default class HashTable<V> {
     const { node, bucketLinkedList } = this.getNode(key)
     if (node) {
       bucketLinkedList.delete(node.value)
+      // 删除entries中的值
+      this.entries = this.entries.filter( entry => {
+        if (entry[0] === key) {
+          return false
+        } else {
+          return true
+        }
+      })
     }
     return null
   }
@@ -107,7 +127,9 @@ export default class HashTable<V> {
    * @memberof HashTable
    */
   has(key: K): boolean {
-    return false
+    return this.entries.some((entry) => {
+      return entry[0] === key
+    })
   }
 
   /**
@@ -116,6 +138,30 @@ export default class HashTable<V> {
    * @memberof HashTable
    */
   getKeys() {
+    return this.entries.map( entry => {
+      return entry[0]
+    })
+  }
 
+  /**
+   * 以[[key, value],]形式返回hashTable的键值对
+   *
+   * @returns
+   * @memberof HashTable
+   */
+  getEntries() {
+    return this.entries
+  }
+
+  /**
+   * 以数组形式返回HashTable的值
+   *
+   * @returns
+   * @memberof HashTable
+   */
+  getValues() {
+    return this.entries.map( entry => {
+      return entry[1]
+    })
   }
  }
