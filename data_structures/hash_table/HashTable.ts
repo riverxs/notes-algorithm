@@ -172,4 +172,24 @@ export default class HashTable<V> {
       return entry[1]
     })
   }
+
+  /**
+   * 判断hashTable是否为空
+   *
+   * @returns {boolean}
+   * @memberof HashTable
+   */
+  isEmpty(): boolean {
+    return this.entries.length === 0
+  }
+
+  /**
+   * 查看hashTable的键个数
+   *
+   * @returns {number}
+   * @memberof HashTable
+   */
+  size(): number {
+    return this.entries.length
+  }
  }
