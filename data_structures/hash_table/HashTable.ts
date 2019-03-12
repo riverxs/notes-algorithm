@@ -145,7 +145,7 @@ export default class HashTable<V> {
    *
    * @memberof HashTable
    */
-  getKeys() {
+  getKeys(): K[] {
     return this.entries.map( entry => {
       return entry[0]
     })
@@ -157,7 +157,7 @@ export default class HashTable<V> {
    * @returns
    * @memberof HashTable
    */
-  getEntries() {
+  getEntries(): [K, V][] {
     return this.entries
   }
 
@@ -167,7 +167,7 @@ export default class HashTable<V> {
    * @returns
    * @memberof HashTable
    */
-  getValues() {
+  getValues(): V[] {
     return this.entries.map( entry => {
       return entry[1]
     })
