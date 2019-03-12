@@ -32,7 +32,7 @@ export default class HashTable<V> {
 
   /**
    * 哈希函数，将key转成一个哈希值
-   * 此处使用一个简单办法
+   * 此处使用一个简单办法，性能没做优化，可考虑缓存
    * @param {K} key
    * @returns {number}
    * @memberof HashTable
@@ -45,6 +45,14 @@ export default class HashTable<V> {
     return hash % this.buckets.length
   }
 
+  /**
+   * 获取key在链表上对应的node
+   *
+   * @private
+   * @param {K} key
+   * @returns
+   * @memberof HashTable
+   */
   private getNode(key: K) {
     const hash = this.hash(key)
     const bucketLinkedList = this.buckets[hash]

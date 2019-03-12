@@ -235,4 +235,14 @@ export default class LinkedList<T> {
   reverse() {
 
   }
+
+  /**
+   * 返回链表长度
+   *
+   * @returns {number}
+   * @memberof LinkedList
+   */
+  length(): number {
+    return this.toArray().length
+  }
 }
