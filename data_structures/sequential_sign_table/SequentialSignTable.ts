@@ -4,7 +4,7 @@ import Comparator from '../../utils/comparator/comparator'
 // 最好是素数，这样充分利用原散列值的所有位，减少碰撞
 const defaultSequentialSignTableSize: number = 31
 
-type K = any
+type K = string | number
 
 interface LinkedListValue<K, V> {
   key: K,
@@ -12,9 +12,10 @@ interface LinkedListValue<K, V> {
 }
 
 /**
- * 使用数组与链表实现sequentialSignTableSize(不在此实现中使用内置对象字面量和Map结构)，拉链法解决key冲突，插入, 查找，删除平均时间复杂度O(1)
- * so, they are widely used in many kinds of computer software,
- * particularly for associative arrays, database indexing, caches, and sets.
+ * 有序符号表的实现，使用hashTable一样的实现
+ * 使用数组与链表实现sequentialSignTableSize(不在此实现中使用内置对象字面量和Map结构)，
+ * 拉链法解决key冲突，插入, 查找，删除平均时间复杂度O(1)
+ *
  * @export
  * @class sequentialSignTableSize
  */
@@ -24,11 +25,11 @@ export default class SequentialSignTable<V> {
   private compare: Comparator
   /**
    * Creates an instance of sequentialSignTableSize.
-   * @param {number} [sequentialSignTableSizeSize=defaultSequentialSignTableSize]
-   * @memberof sequentialSignTableSize
+   * @param {number} [sequentialSignTableSize=defaultSequentialSignTableSize]
+   * @memberof SequentialSignTable
    */
-  constructor(sequentialSignTableSizeSize: number = defaultSequentialSignTableSize) {
-    this.buckets = Array(sequentialSignTableSizeSize).fill(null).map(() => new LinkedList())
+  constructor(sequentialSignTableSize: number = defaultSequentialSignTableSize) {
+    this.buckets = Array(sequentialSignTableSize).fill(null).map(() => new LinkedList())
     this.entries = []
     this.compare = new Comparator()
   }
@@ -38,7 +39,7 @@ export default class SequentialSignTable<V> {
    * 此处使用一个简单办法，性能没做优化，可考虑缓存
    * @param {K} key
    * @returns {number}
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   private hash(key: K): number {
     const hash = Array.from(key.toString()).reduce(
@@ -54,7 +55,7 @@ export default class SequentialSignTable<V> {
    * @private
    * @param {K} key
    * @returns
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   private getNode(key: K) {
     const hash = this.hash(key)
@@ -69,9 +70,9 @@ export default class SequentialSignTable<V> {
    *
    * @param {K} key
    * @param {V} value
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
-  set(key: K, value: V): sequentialSignTableSize<V> {
+  set(key: K, value: V): SequentialSignTable<V> {
     const { node, bucketLinkedList } = this.getNode(key)
     if (!node) {
       // 插入新结点
@@ -97,7 +98,7 @@ export default class SequentialSignTable<V> {
    *
    * @param {K} key
    * @returns {(V | null)}
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   delete(key: K): V | null {
     const { node, bucketLinkedList } = this.getNode(key)
@@ -120,7 +121,7 @@ export default class SequentialSignTable<V> {
    *
    * @param {K} key
    * @returns {V}
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   get(key: K): V | null {
     const { node } = this.getNode(key)
@@ -135,7 +136,7 @@ export default class SequentialSignTable<V> {
    *
    * @param {K} key
    * @returns {boolean}
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   has(key: K): boolean {
     return this.entries.some((entry) => {
@@ -144,31 +145,82 @@ export default class SequentialSignTable<V> {
   }
 
   /**
-   * 以数组形式返回sequentialSignTableSize的所有key值
+   * 返回最小键
    *
-   * @memberof sequentialSignTableSize
+   * @returns {K}
+   * @memberof SequentialSignTable
    */
-  getKeys(): K[] {
-    return this.entries.map( entry => {
-      return entry[0]
+  min(): K {
+    const keys = this.getKeys()
+    return keys[0]
+  }
+
+  /**
+   * 返回最大键值
+   *
+   * @returns {K}
+   * @memberof SequentialSignTable
+   */
+  max(): K {
+    const keys = this.getKeys()
+    return keys[keys.length -1]
+  }
+
+  /**
+   * 返回key在[low, high]之间所有的键，已排序
+   *
+   * @param {K} low
+   * @param {K} high
+   * @returns {K[]}
+   * @memberof SequentialSignTable
+   */
+  keys(low: K, high: K): K[] {
+    return this.entries.map( entry => entry[0]).filter(entry => {
+      return this.compare.greaterThan(entry, low) && this.compare.lessThan(entry, high)
+    }).sort((a, b) => {
+      if (this.compare.greaterThan(a, b)) {
+        return -1
+      } else if (this.compare.equal(a, b)) {
+        return 0
+      } else {
+        return 1
+      }
     })
   }
 
   /**
-   * 以[[key, value],]形式返回sequentialSignTableSize的键值对
+   * 以数组形式返回SequentialSignTable的所有key值
+   *
+   * @memberof SequentialSignTable
+   */
+  private getKeys(): K[] {
+    const len = this.entries.length
+    return this.entries.map(entry => entry[0]).sort((a, b) => {
+      if (this.compare.greaterThan(a, b)) {
+        return -1
+      } else if (this.compare.equal(a, b)) {
+        return 0
+      } else {
+        return 1
+      }
+    })
+  }
+
+  /**
+   * 以[[key, value],]形式返回SequentialSignTable的键值对
    *
    * @returns
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   getEntries(): [K, V][] {
     return this.entries
   }
 
   /**
-   * 以数组形式返回sequentialSignTableSize的值
+   * 以数组形式返回SequentialSignTable的值
    *
    * @returns
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   getValues(): V[] {
     return this.entries.map( entry => {
@@ -180,55 +232,26 @@ export default class SequentialSignTable<V> {
    * 判断sequentialSignTableSize是否为空
    *
    * @returns {boolean}
-   * @memberof sequentialSignTableSize
+   * @memberof SequentialSignTable
    */
   isEmpty(): boolean {
     return this.entries.length === 0
   }
 
   /**
-   * 查看sequentialSignTableSize的键个数
-   *
-   * @returns {number}
-   * @memberof sequentialSignTableSize
-   */
-  size(): number {
-    return this.entries.length
-  }
-
-  /**
-   * 返回最小键
-   *
-   * @returns {K}
-   * @memberof SequentialSignTable
-   */
-  min(): K {
-
-  }
-
-  /**
-   * 返回最大键值
-   *
-   * @returns {K}
-   * @memberof SequentialSignTable
-   */
-  max(): K {
-
-  }
-
-  /**
-   *
+   * 查找小于等于K的最大键
    *
    * @param {K} key
    * @returns {K}
    * @memberof SequentialSignTable
    */
   floor(key: K): K {
-
+    const index = this.getKeys().indexOf(key)
+    return
   }
 
   /**
-   *
+   * 查找大于等于K的最小键
    *
    * @param {K} key
    * @returns {K}
@@ -260,27 +283,38 @@ export default class SequentialSignTable<V> {
 
   }
 
+  /**
+   * 删除最小键
+   *
+   * @returns
+   * @memberof SequentialSignTable
+   */
   deleteMin() {
-
-  }
-
-  deleteMax() {
-
+    return this.delete(this.min())
   }
 
   /**
+   * 删除最大键
    *
+   * @returns
+   * @memberof SequentialSignTable
+   */
+  deleteMax() {
+    return this.delete(this.max())
+  }
+
+  /**
+   * 查看再[low, high]之间键的多少
    *
    * @param {K} low
    * @param {K} high
    * @returns {number}
    * @memberof SequentialSignTable
    */
-  size(low: K, high: K): number {
-    return 0
-  }
-
-  keys(low: K, high: K): K[] {
-    return []
+  size(low?: K, high?: K): number {
+    if (!low && !high) return this.entries.length
+    else {
+      return this.keys(<K>low, <K>high).length
+    }
   }
  }
