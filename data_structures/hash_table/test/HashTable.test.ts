@@ -3,7 +3,7 @@ import HashTable from '../HashTable'
 describe('HashTable Test', () => {
   it('it should be possible to create an empty hashTable with customized hash size', () => {
     const hashMap = new HashTable()
-    expect(hashMap.buckets.length).toBe(97)
+    expect(hashMap.buckets.length).toBe(31)
     expect(hashMap.getEntries()).toEqual([])
 
     const hashMap2 = new HashTable(111)

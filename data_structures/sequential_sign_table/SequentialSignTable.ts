@@ -151,7 +151,7 @@ export default class SequentialSignTable<V> {
    * @memberof SequentialSignTable
    */
   min(): K {
-    const keys = this.getKeys()
+    const keys = this.keys()
     return keys[0]
   }
 
@@ -162,7 +162,7 @@ export default class SequentialSignTable<V> {
    * @memberof SequentialSignTable
    */
   max(): K {
-    const keys = this.getKeys()
+    const keys = this.keys()
     return keys[keys.length -1]
   }
 
@@ -174,34 +174,20 @@ export default class SequentialSignTable<V> {
    * @returns {K[]}
    * @memberof SequentialSignTable
    */
-  keys(low: K, high: K): K[] {
+  keys(low?: K, high?: K): K[] {
     return this.entries.map( entry => entry[0]).filter(entry => {
-      return this.compare.greaterThan(entry, low) && this.compare.lessThan(entry, high)
+      if (!low && !high) {
+        return true
+      } else {
+        return this.compare.greaterThan(entry, low) && this.compare.lessThan(entry, high)
+      }
     }).sort((a, b) => {
       if (this.compare.greaterThan(a, b)) {
-        return -1
+        return 1
       } else if (this.compare.equal(a, b)) {
         return 0
       } else {
-        return 1
-      }
-    })
-  }
-
-  /**
-   * 以数组形式返回SequentialSignTable的所有key值
-   *
-   * @memberof SequentialSignTable
-   */
-  private getKeys(): K[] {
-    const len = this.entries.length
-    return this.entries.map(entry => entry[0]).sort((a, b) => {
-      if (this.compare.greaterThan(a, b)) {
         return -1
-      } else if (this.compare.equal(a, b)) {
-        return 0
-      } else {
-        return 1
       }
     })
   }
@@ -239,15 +225,17 @@ export default class SequentialSignTable<V> {
   }
 
   /**
-   * 查找小于等于K的最大键
+   * 查找小于等于Key的最大键
    *
    * @param {K} key
    * @returns {K}
    * @memberof SequentialSignTable
    */
   floor(key: K): K {
-    const index = this.getKeys().indexOf(key)
-    return
+    const filterKeys = this.keys().filter((k) => {
+      return this.compare.lessThanOrEqual(k, key)
+    })
+    return filterKeys[filterKeys.length - 1]
   }
 
   /**
@@ -258,7 +246,10 @@ export default class SequentialSignTable<V> {
    * @memberof SequentialSignTable
    */
   ceiling(key: K): K {
-
+    const filterKeys = this.keys().filter((k) => {
+      return this.compare.greaterThanOrEqual(k, key)
+    })
+    return filterKeys[0]
   }
 
   /**
@@ -269,7 +260,9 @@ export default class SequentialSignTable<V> {
    * @memberof SequentialSignTable
    */
   rank(key: K): number {
-    return 0
+    return this.keys().filter((k) => {
+      return this.compare.lessThan(k, key)
+    }).length
   }
 
   /**
@@ -279,8 +272,13 @@ export default class SequentialSignTable<V> {
    * @returns {K}
    * @memberof SequentialSignTable
    */
-  select(rank: number): K {
+  select(rank: number): K | null {
+    const keys = this.keys()
 
+    if (rank > keys.length || rank < 0) return null
+    else {
+      return keys[rank - 1]
+    }
   }
 
   /**

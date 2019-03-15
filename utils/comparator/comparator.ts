@@ -20,7 +20,7 @@ export default class Comparator {
     }
   }
   /*
-  默认比较函数实现, 这个实现比较幼稚，后期参考underscore的实现
+  默认比较函数实现
   */
   compare(a: comparableType, b: comparableType): compareResult | Error {
     if (_.eq(a, b)) return 0
