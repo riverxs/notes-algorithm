@@ -154,8 +154,31 @@ export default class BinaryTreeNode<V> {
     return false;
   }
 
+  /**
+   * 顺序遍历Node
+   *
+   * @returns {V[]}
+   * @memberof BinaryTreeNode
+   */
+  traverseInOrder(): (V | null)[] {
+    let traverse: (V | null)[] = []
+    if (this.left) {
+      traverse = traverse.concat(this.left.traverseInOrder())
+    }
+    traverse.push(this.value)
+    if (this.right) {
+      traverse = traverse.concat(this.right.traverseInOrder())
+    }
+    return traverse
+  }
 
+  /**
+   * 返回字符串
+   *
+   * @returns
+   * @memberof BinaryTreeNode
+   */
+  toString() {
+    return this.traverseInOrder().toString()
+  }
 }
-
-
-
