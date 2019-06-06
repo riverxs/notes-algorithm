@@ -3,7 +3,7 @@ import HashTable from '../hash_table/HashTable'
 
 /**
  * 同时拥有链表的插入和有序数组的查找优势的数据结构
- * 实现组成BinaryTreeNode最小完备API
+ * 实现BinaryTreeNode最小完备API
  * @export
  * @class BinaryTreeNode
  * @template V
@@ -15,7 +15,7 @@ export default class BinaryTreeNode<V> {
   value: V | null
   meta: HashTable<any>
   compare: Comparator
-  constructor(value = null) {
+  constructor(value: V | null = null) {
     this.left = null
     this.right = null
     this.parent = null
@@ -65,7 +65,7 @@ export default class BinaryTreeNode<V> {
    * @memberof BinaryTreeNode
    */
   get balanceFactor() {
-    return this.leftHeight - this.rightHeight
+    return Math.abs(this.leftHeight - this.rightHeight)
   }
 
   /**
@@ -92,19 +92,19 @@ export default class BinaryTreeNode<V> {
    * @returns {BinaryTreeNode<V>}
    * @memberof BinaryTreeNode
    */
-  setValue(value: V): BinaryTreeNode<V> {
+  setValue(value: V | null): BinaryTreeNode<V> {
     this.value = value
     return this
   }
 
   /**
-   * 更改左结点为node
+   * 更改左结点为新node
    *
    * @param {BinaryTreeNode<V>} node
    * @returns {BinaryTreeNode<V>}
    * @memberof BinaryTreeNode
    */
-  setLeft(node: BinaryTreeNode<V>): BinaryTreeNode<V> {
+  setLeft(node: BinaryTreeNode<V> | null): BinaryTreeNode<V> {
     if (this.left) {
       // 断开左结点链接
       this.left.parent = null
@@ -123,9 +123,9 @@ export default class BinaryTreeNode<V> {
    * @returns {BinaryTreeNode<V>}
    * @memberof BinaryTreeNode
    */
-  setRight(node: BinaryTreeNode<V>): BinaryTreeNode<V> {
+  setRight(node: BinaryTreeNode<V> | null): BinaryTreeNode<V> {
     if (this.right) {
-      // 断开左结点链接
+      // 断开右结点链接
       this.right.parent = null
     }
     this.right = node
@@ -136,7 +136,7 @@ export default class BinaryTreeNode<V> {
   }
 
   /**
-   * 删除指定结点
+   * 删除子结点
    *
    * @param {BinaryTreeNode<V>} nodeToRemove
    * @returns boolean
@@ -152,6 +152,29 @@ export default class BinaryTreeNode<V> {
       return true;
     }
     return false;
+  }
+
+  /**
+   * 替换子节点
+   *
+   * @param {BinaryTreeNode<V>} nodeToReplace
+   * @param {BinaryTreeNode<V>} replacementNode
+   * @returns boolean
+   * @memberof BinaryTreeNode
+   */
+  replaceChild(nodeToReplace: BinaryTreeNode<V>, replacementNode: BinaryTreeNode<V>): boolean {
+    if (!nodeToReplace || !replacementNode) {
+      return false
+    }
+    if (this.left && this.compare.equal(this.left, nodeToReplace)) {
+      this.left = replacementNode
+      return true
+    }
+    if (this.right && this.compare.equal(this.right, nodeToReplace)) {
+      this.right = replacementNode
+      return true
+    }
+    return false
   }
 
   /**
