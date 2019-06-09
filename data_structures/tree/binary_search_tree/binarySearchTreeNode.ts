@@ -2,14 +2,35 @@ import BinaryTreeNode from '../BinaryTreeNode'
 import Comparator from '../../../utils/comparator/comparator'
 
 
+/**
+ * 二叉树结点AST
+ *
+ * @export
+ * @class BinarySearchTreeNode
+ * @extends {BinaryTreeNode<V>}
+ * @template V
+ */
 export default class BinarySearchTreeNode<V> extends BinaryTreeNode<V> {
   nodeValueCompare: Comparator
 
+  /**
+   * Creates an instance of BinarySearchTreeNode.
+   * @param {(V | null)} [value=null]
+   * @param {*} [compareFunc=undefined]
+   * @memberof BinarySearchTreeNode
+   */
   constructor(value: V | null = null, public compareFunc: any = undefined) {
     super(value)
     this.nodeValueCompare = new Comparator(compareFunc)
   }
 
+  /**
+   * 插入指定值
+   *
+   * @param {V} value
+   * @returns {BinarySearchTreeNode<V>}
+   * @memberof BinarySearchTreeNode
+   */
   insert(value: V): BinarySearchTreeNode<V> {
     if (this.value === null) {
       this.value = value
@@ -37,6 +58,13 @@ export default class BinarySearchTreeNode<V> extends BinaryTreeNode<V> {
     return this
   }
 
+  /**
+   * 查找指定值的结点
+   *
+   * @param {V} value
+   * @returns {(BinarySearchTreeNode<V> | null)}
+   * @memberof BinarySearchTreeNode
+   */
   find(value: V): BinarySearchTreeNode<V> | null {
     if (this.nodeValueCompare.equal(value, this.value)) {
       return this
@@ -53,10 +81,23 @@ export default class BinarySearchTreeNode<V> extends BinaryTreeNode<V> {
     return null
   }
 
+  /**
+   * 查询是否包含指定值
+   *
+   * @param {V} value
+   * @returns {boolean}
+   * @memberof BinarySearchTreeNode
+   */
   contains(value: V): boolean {
     return !!this.find(value);
   }
 
+  /**
+   * 查找最小值
+   *
+   * @returns {BinarySearchTreeNode<V>}
+   * @memberof BinarySearchTreeNode
+   */
   findMin(): BinarySearchTreeNode<V> {
     if (!this.left) {
       return this
@@ -64,6 +105,13 @@ export default class BinarySearchTreeNode<V> extends BinaryTreeNode<V> {
     return (this.left as BinarySearchTreeNode<V>).findMin()
   }
 
+  /**
+   * 删除结点
+   *
+   * @param {V} value
+   * @returns {boolean}
+   * @memberof BinarySearchTreeNode
+   */
   remove(value: V): boolean {
     const nodeToRemove = this.find(value)
     if (!nodeToRemove) {
