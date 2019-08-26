@@ -8,11 +8,11 @@ export default class BinarySearchTree<V> {
   }
 
   insert(value: V) {
-    return this.root.insert(value)
+    this.root.insert(value)
   }
 
   remove(value: V) {
-    return this.root.remove(value)
+    this.root.remove(value)
   }
 
   contains(value: V) {

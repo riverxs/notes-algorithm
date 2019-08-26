@@ -65,7 +65,7 @@ export default class BinaryTreeNode<V> {
    * @memberof BinaryTreeNode
    */
   get balanceFactor() {
-    return Math.abs(this.leftHeight - this.rightHeight)
+    return this.leftHeight - this.rightHeight
   }
 
   /**
