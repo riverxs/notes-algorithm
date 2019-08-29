@@ -90,7 +90,7 @@ export default class AvlTree<V> extends BinarySearchTree<V> {
     const leftRightNode = (leftNode as BinaryTreeNode<V>).right;
     (leftNode as BinaryTreeNode<V>).setRight(null)
 
-    // ???
+    // 保留leftRightNode的left subtree
     if (leftRightNode && leftRightNode.left) {
       (leftNode as BinaryTreeNode<V>).setRight(leftRightNode.left)
       leftRightNode.setLeft(null)
@@ -103,21 +103,56 @@ export default class AvlTree<V> extends BinarySearchTree<V> {
     this.rotateLeftLeft(node)
   }
 
-    /**
+  /**
    * @ RL型导致不平衡情形
    * @param {BinarySearchTreeNode<V>} node
    * @memberof AvlTree
    */
   rotateRightLeft(node: BinarySearchTreeNode<V>) {
+    const rightNode = node.right
+    node.setRight(null)
 
+    const rightLeftNode = (rightNode as BinaryTreeNode<V>).left;
+    (rightNode as BinaryTreeNode<V>).setLeft(null)
+
+    if (rightLeftNode && rightLeftNode.right) {
+      (rightNode as BinaryTreeNode<V>).setLeft(rightLeftNode.right)
+      rightLeftNode.setRight(null)
+    }
+
+    // 右旋rightLeftNode
+    node.setRight(rightLeftNode);
+    // 右旋rightNode
+    (rightLeftNode as BinaryTreeNode<V>).setRight(rightNode)
+
+    this.rotateRightRight(node)
   }
 
-    /**
+  /**
    * @ RR型导致不平衡情形
    * @param {BinarySearchTreeNode<V>} node
    * @memberof AvlTree
    */
   rotateRightRight(node: BinarySearchTreeNode<V>) {
+    const rightNode = node.right
+    node.setRight(null)
 
+    // 需平衡节点存在parent，则需重置其parent的子节点
+    if (node.parent) {
+      if (node.parent.left === node) {
+        node.parent.setLeft(rightNode)
+      } else {
+        node.parent.setRight(rightNode)
+      }
+    } else if (node === this.root) {
+      this.root = rightNode as BinarySearchTreeNode<V>
+    }
+
+    if (rightNode && rightNode.left) {
+      node.setRight(rightNode.left)
+    }
+
+    // 此为左旋操作
+    (rightNode as BinaryTreeNode<V>).setLeft(node)
   }
 }
