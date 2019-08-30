@@ -26,7 +26,7 @@ export default class Heap<V> {
    * @param {compareFn} comparatorFunc
    * @memberof Heap
    */
-  constructor(comparatorFunc: compareFn) {
+  constructor(comparatorFunc?: compareFn) {
     if (new.target === Heap) {
       throw new TypeError('Cannot construct Heap instance directly')
     }
@@ -154,7 +154,7 @@ export default class Heap<V> {
   }
 
   /**
-   * @description 下浮元素使其堆化
+   * @description 下沉元素使其堆化
    * @param {number} [customStartIndex=0]
    * @memberof Heap
    */
@@ -188,7 +188,7 @@ export default class Heap<V> {
   }
 
   /**
-   * @description 取堆顶元素展示并不删除
+   * @description 查看堆顶元素
    * @returns {(V | null)}
    * @memberof Heap
    */
