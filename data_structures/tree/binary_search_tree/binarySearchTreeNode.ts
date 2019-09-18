@@ -1,7 +1,6 @@
 import BinaryTreeNode from '../BinaryTreeNode'
 import Comparator from '../../../utils/comparator/comparator'
 
-
 /**
  * 二叉树结点AST
  *

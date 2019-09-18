@@ -1,3 +1,3 @@
 # notes-algorithms
 
-data structures & algorithms
+data structures & algorithms, implement with ts.
