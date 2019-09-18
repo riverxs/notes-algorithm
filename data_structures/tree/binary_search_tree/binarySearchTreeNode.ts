@@ -114,7 +114,7 @@ export default class BinarySearchTreeNode<V> extends BinaryTreeNode<V> {
   remove(value: V): boolean {
     const nodeToRemove = this.find(value)
     if (!nodeToRemove) {
-      throw new Error('Item not found in the tree')
+      throw new Error(`${value} not found in the tree`)
     }
     const { parent } = nodeToRemove
     // 不存在子结点

@@ -2,7 +2,7 @@ import _ from 'lodash'
 type comparableType = any
 type compareResult = 0 | -1 | 1
 // type compareFn = (a: comparableType, b: comparableType) => compareResult | Error
-interface compareFn {
+export interface compareFn {
   (a: comparableType, b: comparableType) : compareResult | Error
 }
 

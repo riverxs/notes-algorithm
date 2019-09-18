@@ -39,7 +39,7 @@ describe('Binary Tree test', () => {
     expect(node.height).toBe(2)
     expect(node.leftHeight).toBe(1)
     expect(node.rightHeight).toBe(2)
-    expect(node.balanceFactor).toBe(1)
+    expect(node.balanceFactor).toBe(-1)
   })
 
   it('should get the uncle of node', () => {
